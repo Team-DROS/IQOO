@@ -1,0 +1,18 @@
+{
+  "source_file": "image_03_sparse.png",
+  "transcript": null,
+  "prescription": {
+    "confidence": "medium",
+    "medicines": [
+      {
+        "dosage": "100 mg",
+        "duration": "4 days",
+        "frequency": "00 X",
+        "instructions": "IV stat",
+        "name": "Remdesivir"
+      }
+    ],
+    "notes": "Doctor recommends Remdesivir 100 mg IV stat for 4 days. Note mentions RM0 COVID ward.",
+    "patient_name": null
+  }
+}

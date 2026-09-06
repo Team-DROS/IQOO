@@ -14,7 +14,7 @@ Copy-Item .env.example .env
 
 Open `.env` and add one Groq API key. Do not commit `.env`.
 
-Audio follows this pipeline: natural doctor-patient conversation → Groq `whisper-large-v3` transcription → Groq `openai/gpt-oss-20b` structured extraction. The extractor infers the patient name and final medication plan from context. Language detection is automatic because recordings may mix English with Hindi or Tamil. English prescription images are processed by Groq `qwen/qwen3.8-27b` vision. All three models are available within Groq's free-plan limits.
+Audio follows this pipeline: natural doctor-patient conversation → Groq `whisper-large-v3` transcription → Groq `qwen/qwen3.8-27b` multilingual structured extraction. The extractor infers the patient name and final medication plan from context. Language detection is automatic because recordings may mix English with Hindi or Tamil. English prescription images are also processed by Groq `qwen/qwen3.8-27b` vision. Both models are available within Groq's free-plan limits.
 
 ## Run
 

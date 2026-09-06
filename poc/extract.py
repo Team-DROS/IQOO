@@ -51,6 +51,11 @@ Extract only medicines that the doctor recommends in the current conversation, n
 mentioned as allergies, previous treatments, examples, questions, or drugs the patient stopped taking.
 The transcript may mix English with Hindi or Tamil. Return all structured fields in English,
 translating only ordinary instructions while preserving medicine names, units, and numbers exactly.
+In the JSON, dosage means medicine strength (for example 500 mg), frequency means how often it is
+taken (for example twice daily or 1-0-1), and instructions means timing/route (for example after food).
+Never expand an ambiguous handwritten dosing symbol into a more specific instruction. Use null and
+lower confidence when handwriting or speech is unclear. Return English text in every JSON field.
+Keep notes factual and under 40 words. Never repeat uncertainty phrases or duplicate content.
 The result is for demonstration only and must not include diagnosis or medical advice."""
 
 
@@ -71,7 +76,9 @@ def transcribe_audio(client: Groq, path: Path) -> str:
                 "This is a natural conversation between an Indian doctor and patient. "
                 "Accurately preserve patient names, medicine names, dosages, units, "
                 "frequency, and duration. Speech may mix English with Hindi or Tamil. "
-                "Do not summarize or translate the conversation."
+                "Do not summarize or translate the conversation. Common medicine vocabulary may "
+                "include Paracetamol, Cetirizine, Amoxicillin, Pantoprazole, Azithromycin, "
+                "Metformin, Vitamin D3, and Dolo."
             ),
             response_format="json",
             temperature=0.0,
@@ -95,6 +102,7 @@ def extract_structured(client: Groq, content: Any, model: str) -> dict[str, Any]
             }
         },
         temperature=0,
+        max_completion_tokens=1500,
     )
     output_text = response.choices[0].message.content
     if not output_text:
@@ -105,7 +113,7 @@ def extract_structured(client: Groq, content: Any, model: str) -> dict[str, Any]
 def extract_from_audio(client: Groq, path: Path) -> tuple[dict[str, Any], str]:
     transcript = transcribe_audio(client, path)
     content = f"Doctor-patient conversation transcript:\n{transcript}"
-    model = os.getenv("GROQ_TEXT_MODEL", "openai/gpt-oss-20b")
+    model = os.getenv("GROQ_TEXT_MODEL", "qwen/qwen3.8-27b")
     return extract_structured(client, content, model), transcript
 
 
@@ -128,6 +136,12 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> int:
+    # Preserve Hindi/Tamil script in Windows terminals instead of failing on cp1252.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+    if hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8")
+
     args = parse_args()
     path = args.input.expanduser().resolve()
     if not path.is_file():

@@ -1,0 +1,88 @@
+{
+  "source_file": "image_02_hard.png",
+  "transcript": null,
+  "prescription": {
+    "confidence": "low",
+    "medicines": [
+      {
+        "dosage": "60",
+        "duration": null,
+        "frequency": "SIC",
+        "instructions": null,
+        "name": "Trexalme"
+      },
+      {
+        "dosage": "10 mg",
+        "duration": null,
+        "frequency": "BD",
+        "instructions": null,
+        "name": "Cep"
+      },
+      {
+        "dosage": "16 mg",
+        "duration": null,
+        "frequency": "BD",
+        "instructions": null,
+        "name": "By"
+      },
+      {
+        "dosage": null,
+        "duration": null,
+        "frequency": "on",
+        "instructions": null,
+        "name": "Aaspirin"
+      },
+      {
+        "dosage": null,
+        "duration": null,
+        "frequency": "BD",
+        "instructions": null,
+        "name": "Vf csw"
+      },
+      {
+        "dosage": null,
+        "duration": null,
+        "frequency": "on",
+        "instructions": null,
+        "name": "Ziaert"
+      },
+      {
+        "dosage": "25",
+        "duration": null,
+        "frequency": null,
+        "instructions": null,
+        "name": "Metocarc"
+      },
+      {
+        "dosage": null,
+        "duration": null,
+        "frequency": null,
+        "instructions": null,
+        "name": "Enas Syner"
+      },
+      {
+        "dosage": null,
+        "duration": null,
+        "frequency": "on",
+        "instructions": null,
+        "name": "Otea PA"
+      },
+      {
+        "dosage": null,
+        "duration": null,
+        "frequency": null,
+        "instructions": null,
+        "name": "Com"
+      },
+      {
+        "dosage": null,
+        "duration": null,
+        "frequency": null,
+        "instructions": null,
+        "name": "Met"
+      }
+    ],
+    "notes": "Chest and shortness of breath. Chest pain. Follow up. Patient name: Machel Jeuf. Age: 60. Date: 6/08/21. S/O2 - 09 yr ORA. WR - 80 bpm. Tests: CBC, CHC/CKMB, TSH-1, PRO. T4P, ICF, CRP, Rho Reptz. My Regent 485 11/12 1125. (8 day).",
+    "patient_name": "Machel Jeuf"
+  }
+}

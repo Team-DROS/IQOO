@@ -1,0 +1,18 @@
+{
+  "source_file": "audio_02.mp4",
+  "transcript": " Namaste! आपका नाम क्या है? मेरा नायर मेरा जी क्या प्रॉब्लम हो रही है? मुझे दो दिन से स्नीजिंग और नाख में इच्छिंग हो रही है. ठीक है, Cetirizine 10 mg रात को एक बार पांच दिन तक लीजिए. इससे नींद आ सकती है. ठीक है, डॉक्टर",
+  "prescription": {
+    "confidence": "high",
+    "medicines": [
+      {
+        "dosage": "10 mg",
+        "duration": "5 days",
+        "frequency": "once at night",
+        "instructions": "at night",
+        "name": "Cetirizine"
+      }
+    ],
+    "notes": "Patient reports sneezing and itching in the nose for two days. Doctor advised Cetirizine 10 mg once at night for five days, noting it may cause drowsiness.",
+    "patient_name": "Nair"
+  }
+}
