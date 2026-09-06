@@ -1,0 +1,13 @@
+{
+  "source_file": "audio_03.m4a",
+  "transcript": "Patient peru Kabir Sharma. Amoxicillin 500 milligrams, oru capsule moonu vaati saapadukku appuram, anju naal edukkanum. Pantoprazole 40 milligrams kaalaila breakfast-ku munnadi oru vaati, anju naal edukkanum.",
+  "prescription": {
+    "patient_name": "Kabir Sharma",
+    "medicines": [
+      {"name": "Amoxicillin", "dosage": "500 mg", "frequency": "one capsule three times daily", "duration": "5 days", "instructions": "after food"},
+      {"name": "Pantoprazole", "dosage": "40 mg", "frequency": "once daily", "duration": "5 days", "instructions": "before breakfast"}
+    ],
+    "notes": null,
+    "confidence": "high"
+  }
+}

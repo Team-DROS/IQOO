@@ -15,7 +15,7 @@ The app is a React Native mockup built with Expo. No real backend is connected i
 4. Use Expo Go on your phone or an emulator to test the flow.
 
 ## Running the POC Script
-This proves the technical feasibility of extracting structured JSON from voice and images.
+This proves the technical feasibility of extracting structured JSON from voice and images. Groq Whisper Large V3 transcribes English, Hinglish, and Tanglish audio; the extraction stage normalizes the result into English JSON.
 
 1. Navigate to the poc directory: `cd poc`
 2. Install Python dependencies: `pip install -r requirements.txt`

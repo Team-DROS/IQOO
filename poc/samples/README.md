@@ -10,7 +10,7 @@ Use only fictional names and invented prescription details.
 4. Record in a quiet room with the phone about 20 cm from your mouth.
 5. Export/share it to this folder as `audio_01.m4a`, `audio_02.m4a`, and `audio_03.m4a`.
 
-Make sample 1 clear, sample 2 slightly faster, and sample 3 include two medicines.
+Sample 1 is English, sample 2 is Hinglish, and sample 3 is Tanglish with two medicines. Read the mixed-language scripts naturally; do not imitate an accent or translate them while recording.
 
 ## Image samples
 

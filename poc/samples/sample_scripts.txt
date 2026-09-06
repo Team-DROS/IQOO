@@ -1,11 +1,11 @@
 AUDIO SCRIPT 1 — clear, one medicine
 Patient name is Aarav Mehta. Prescribe tablet Paracetamol 500 milligrams, one tablet twice daily after food for three days. Drink plenty of water.
 
-AUDIO SCRIPT 2 — natural phrasing
-For patient Meera Nair, start cetirizine 10 milligrams once at night for five days. It may cause drowsiness.
+AUDIO SCRIPT 2 — Hinglish
+Patient ka naam Meera Nair hai. Cetirizine 10 milligrams raat ko ek baar, paanch din ke liye dena hai. Isse neend aa sakti hai.
 
-AUDIO SCRIPT 3 — two medicines
-Patient is Kabir Sharma. Amoxicillin 500 milligrams, one capsule three times daily after meals for five days. Also prescribe pantoprazole 40 milligrams once daily before breakfast for five days.
+AUDIO SCRIPT 3 — Tanglish, two medicines
+Patient peru Kabir Sharma. Amoxicillin 500 milligrams, oru capsule moonu vaati saapadukku appuram, anju naal edukkanum. Pantoprazole 40 milligrams kaalaila breakfast-ku munnadi oru vaati, anju naal edukkanum.
 
 IMAGE SCRIPT 1 — handwritten
 Patient: Ananya Rao

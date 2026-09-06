@@ -12,7 +12,9 @@ py -m pip install -r requirements.txt
 Copy-Item .env.example .env
 ```
 
-Open `.env` and replace `replace_with_your_key` with an OpenAI API key. Do not commit `.env`.
+Open `.env` and add both a Groq API key and an OpenAI API key. Do not commit `.env`.
+
+Audio follows this pipeline: Groq `whisper-large-v3` transcription → OpenAI structured JSON extraction. Language detection is left automatic because recordings may mix English with Hindi or Tamil. Prescription images remain English-only and go directly to the vision extraction stage.
 
 ## Run
 

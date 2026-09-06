@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from dotenv import load_dotenv
+from groq import Groq
 from openai import OpenAI
 
 AUDIO_EXTENSIONS = {".flac", ".mp3", ".mp4", ".mpeg", ".mpga", ".m4a", ".ogg", ".wav", ".webm"}
@@ -43,23 +44,37 @@ PRESCRIPTION_SCHEMA: dict[str, Any] = {
     "additionalProperties": False,
 }
 
-EXTRACTION_INSTRUCTIONS = """You are a prescription transcription assistant for a prototype.
+EXTRACTION_INSTRUCTIONS = """You are a multilingual prescription transcription assistant for a prototype.
 Extract only information visible in the image or stated in the transcript.
 Do not invent missing medicine details; use null. Preserve medicine names and dosages as written.
+The transcript may mix English with Hindi or Tamil. Return all structured fields in English,
+translating only ordinary instructions while preserving medicine names, units, and numbers exactly.
 The result is for demonstration only and must not include diagnosis or medical advice."""
 
 
-def build_client() -> OpenAI:
+def build_clients() -> tuple[Groq, OpenAI]:
     load_dotenv()
+    if not os.getenv("GROQ_API_KEY"):
+        raise RuntimeError("GROQ_API_KEY is missing. Copy .env.example to .env and add your key.")
     if not os.getenv("OPENAI_API_KEY"):
         raise RuntimeError("OPENAI_API_KEY is missing. Copy .env.example to .env and add your key.")
-    return OpenAI()
+    return Groq(api_key=os.getenv("GROQ_API_KEY")), OpenAI()
 
 
-def transcribe_audio(client: OpenAI, path: Path) -> str:
-    model = os.getenv("OPENAI_TRANSCRIPTION_MODEL", "gpt-4o-mini-transcribe")
+def transcribe_audio(client: Groq, path: Path) -> str:
+    model = os.getenv("GROQ_TRANSCRIPTION_MODEL", "whisper-large-v3")
     with path.open("rb") as audio_file:
-        transcript = client.audio.transcriptions.create(model=model, file=audio_file)
+        transcript = client.audio.transcriptions.create(
+            model=model,
+            file=(path.name, audio_file.read()),
+            prompt=(
+                "This is an Indian doctor's code-switched prescription dictation. "
+                "Accurately preserve patient names, medicine names, dosages, units, "
+                "frequency, and duration. Speech may mix English with Hindi or Tamil."
+            ),
+            response_format="json",
+            temperature=0.0,
+        )
     return transcript.text
 
 
@@ -84,10 +99,12 @@ def extract_structured(client: OpenAI, content: Any) -> dict[str, Any]:
     return json.loads(response.output_text)
 
 
-def extract_from_audio(client: OpenAI, path: Path) -> tuple[dict[str, Any], str]:
-    transcript = transcribe_audio(client, path)
+def extract_from_audio(
+    transcription_client: Groq, extraction_client: OpenAI, path: Path
+) -> tuple[dict[str, Any], str]:
+    transcript = transcribe_audio(transcription_client, path)
     content = [{"type": "input_text", "text": f"Prescription transcript:\n{transcript}"}]
-    return extract_structured(client, content), transcript
+    return extract_structured(extraction_client, content), transcript
 
 
 def extract_from_image(client: OpenAI, path: Path) -> dict[str, Any]:
@@ -121,12 +138,12 @@ def main() -> int:
         return 2
 
     try:
-        client = build_client()
+        transcription_client, extraction_client = build_clients()
         transcript = None
         if extension in AUDIO_EXTENSIONS:
-            result, transcript = extract_from_audio(client, path)
+            result, transcript = extract_from_audio(transcription_client, extraction_client, path)
         else:
-            result = extract_from_image(client, path)
+            result = extract_from_image(extraction_client, path)
 
         payload = {"source_file": path.name, "transcript": transcript, "prescription": result}
         rendered = json.dumps(payload, indent=2, ensure_ascii=False)
