@@ -13,7 +13,6 @@ from typing import Any
 
 from dotenv import load_dotenv
 from groq import Groq
-from openai import OpenAI
 
 AUDIO_EXTENSIONS = {".flac", ".mp3", ".mp4", ".mpeg", ".mpga", ".m4a", ".ogg", ".wav", ".webm"}
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
@@ -55,13 +54,11 @@ translating only ordinary instructions while preserving medicine names, units, a
 The result is for demonstration only and must not include diagnosis or medical advice."""
 
 
-def build_clients() -> tuple[Groq, OpenAI]:
+def build_client() -> Groq:
     load_dotenv()
     if not os.getenv("GROQ_API_KEY"):
         raise RuntimeError("GROQ_API_KEY is missing. Copy .env.example to .env and add your key.")
-    if not os.getenv("OPENAI_API_KEY"):
-        raise RuntimeError("OPENAI_API_KEY is missing. Copy .env.example to .env and add your key.")
-    return Groq(api_key=os.getenv("GROQ_API_KEY")), OpenAI()
+    return Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 
 def transcribe_audio(client: Groq, path: Path) -> str:
@@ -82,43 +79,45 @@ def transcribe_audio(client: Groq, path: Path) -> str:
     return transcript.text
 
 
-def extract_structured(client: OpenAI, content: Any) -> dict[str, Any]:
-    model = os.getenv("OPENAI_VISION_MODEL", "gpt-4.1-mini")
-    response = client.responses.create(
+def extract_structured(client: Groq, content: Any, model: str) -> dict[str, Any]:
+    response = client.chat.completions.create(
         model=model,
-        instructions=EXTRACTION_INSTRUCTIONS,
-        input=[{"role": "user", "content": content}],
-        text={
-            "format": {
-                "type": "json_schema",
+        messages=[
+            {"role": "system", "content": EXTRACTION_INSTRUCTIONS},
+            {"role": "user", "content": content},
+        ],
+        response_format={
+            "type": "json_schema",
+            "json_schema": {
                 "name": "prescription",
                 "strict": True,
                 "schema": PRESCRIPTION_SCHEMA,
             }
         },
-        store=False,
+        temperature=0,
     )
-    if not response.output_text:
+    output_text = response.choices[0].message.content
+    if not output_text:
         raise RuntimeError("The model returned no structured output.")
-    return json.loads(response.output_text)
+    return json.loads(output_text)
 
 
-def extract_from_audio(
-    transcription_client: Groq, extraction_client: OpenAI, path: Path
-) -> tuple[dict[str, Any], str]:
-    transcript = transcribe_audio(transcription_client, path)
-    content = [{"type": "input_text", "text": f"Doctor-patient conversation transcript:\n{transcript}"}]
-    return extract_structured(extraction_client, content), transcript
+def extract_from_audio(client: Groq, path: Path) -> tuple[dict[str, Any], str]:
+    transcript = transcribe_audio(client, path)
+    content = f"Doctor-patient conversation transcript:\n{transcript}"
+    model = os.getenv("GROQ_TEXT_MODEL", "openai/gpt-oss-20b")
+    return extract_structured(client, content, model), transcript
 
 
-def extract_from_image(client: OpenAI, path: Path) -> dict[str, Any]:
+def extract_from_image(client: Groq, path: Path) -> dict[str, Any]:
     mime_type = mimetypes.guess_type(path.name)[0] or "image/jpeg"
     encoded = base64.b64encode(path.read_bytes()).decode("ascii")
     content = [
-        {"type": "input_text", "text": "Extract the prescription from this image."},
-        {"type": "input_image", "image_url": f"data:{mime_type};base64,{encoded}", "detail": "high"},
+        {"type": "text", "text": "Extract the prescription from this image and return the required JSON."},
+        {"type": "image_url", "image_url": {"url": f"data:{mime_type};base64,{encoded}"}},
     ]
-    return extract_structured(client, content)
+    model = os.getenv("GROQ_VISION_MODEL", "qwen/qwen3.8-27b")
+    return extract_structured(client, content, model)
 
 
 def parse_args() -> argparse.Namespace:
@@ -142,12 +141,12 @@ def main() -> int:
         return 2
 
     try:
-        transcription_client, extraction_client = build_clients()
+        client = build_client()
         transcript = None
         if extension in AUDIO_EXTENSIONS:
-            result, transcript = extract_from_audio(transcription_client, extraction_client, path)
+            result, transcript = extract_from_audio(client, path)
         else:
-            result = extract_from_image(extraction_client, path)
+            result = extract_from_image(client, path)
 
         payload = {"source_file": path.name, "transcript": transcript, "prescription": result}
         rendered = json.dumps(payload, indent=2, ensure_ascii=False)
