@@ -22,7 +22,7 @@ This proves the technical feasibility of extracting structured JSON from voice a
 3. Copy `.env.example` to `.env` and add your OpenAI API Key.
 4. Follow the beginner sample guide in `poc/samples/README.md`.
 5. Run with audio: `python extract.py samples/audio_01.m4a --output examples/audio_01.json`
-6. Run with image: `python extract.py samples/image_01.jpg --output examples/image_01.json`
+6. Run with image: `python extract.py samples/image_01_normal.png --output examples/image_01.json`
 
 Detailed setup, supported formats, expected output, and demo guidance are in `poc/README.md`.
 

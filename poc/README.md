@@ -20,7 +20,7 @@ Audio follows this pipeline: Groq `whisper-large-v3` transcription → OpenAI st
 
 ```powershell
 py extract.py samples\audio_01.m4a --output examples\audio_01.json
-py extract.py samples\image_01.jpg --output examples\image_01.json
+py extract.py samples\image_01_normal.png --output examples\image_01.json
 ```
 
 The output contains the source filename, the audio transcript when applicable, and a structured prescription. This is a feasibility demo, not a medical system; verify every field manually.

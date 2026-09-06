@@ -14,10 +14,20 @@ Sample 1 is English, sample 2 is Hinglish, and sample 3 is Tanglish with two med
 
 ## Image samples
 
+Three anonymized dataset samples are already included:
+
+- `image_01_normal.png` — normal handwritten OCR test.
+- `image_02_hard.png` — dense, difficult handwriting test.
+- `image_03_sparse.png` — sparse prescription test.
+
+Their source and license are recorded in `DATASET_ATTRIBUTION.md`.
+
+To make additional original samples:
+
 1. Copy Image Script 1 onto plain white paper in neat handwriting.
 2. Copy Image Script 2 into a document and print it, or write it more quickly by hand.
 3. Photograph each page in bright light, from directly above, with all corners visible.
 4. Avoid shadows, glare, blur, real hospital logos, and real patient information.
-5. Save them here as `image_01.jpg` and `image_02.jpg`.
+5. Save them with a new descriptive filename; do not overwrite the dataset samples.
 
 After adding the files, follow the commands in `../README.md`. Do not edit generated JSON to hide extraction mistakes; those mistakes are useful evidence for the demo discussion.
