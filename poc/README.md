@@ -19,7 +19,7 @@ Audio follows this pipeline: natural doctor-patient conversation → Groq `whisp
 ## Run
 
 ```powershell
-py extract.py samples\audio_01.m4a --output examples\audio_01.json
+py extract.py samples\audio_01.mp4 --output examples\audio_01.json
 py extract.py samples\image_01_normal.png --output examples\image_01.json
 ```
 

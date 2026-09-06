@@ -9,7 +9,7 @@ Use only fictional names and invented prescription details.
 3. Do not read the words `Doctor:` and `Patient:` aloud.
 4. Keep each recording between 20 and 40 seconds.
 5. Record in a quiet room with the phone about 20 cm from the speakers.
-6. Export/share it to this folder as `audio_01.m4a`, `audio_02.m4a`, and `audio_03.m4a`.
+6. The completed recordings are stored here as `audio_01.mp4`, `audio_02.mp4`, and `audio_03.mp4`.
 
 Sample 1 is English, sample 2 is Hinglish, and sample 3 is Tanglish with two medicines. None explicitly dictates a patient name or says “prescribe”; the extractor must infer the final record from the conversation.
 
