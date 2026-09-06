@@ -1,85 +1,148 @@
-import sys, os, json
+"""Extract structured prescription data from an audio recording or image."""
+
+from __future__ import annotations
+
+import argparse
+import base64
+import json
+import mimetypes
+import os
+import sys
+from pathlib import Path
+from typing import Any
+
 from dotenv import load_dotenv
 from openai import OpenAI
 
-load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+AUDIO_EXTENSIONS = {".flac", ".mp3", ".mp4", ".mpeg", ".mpga", ".m4a", ".ogg", ".wav", ".webm"}
+IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
 
-SCHEMA_PROMPT_AUDIO = """You are a clinical prescription structuring assistant. Extract structured
-fields from the doctor's spoken prescription transcript below. Return ONLY
-valid JSON matching this schema, with no text before or after it:
-
-{
-  "patient_name": "string or null",
-  "medicine": "string",
-  "dosage": "string",
-  "frequency": "string",
-  "duration": "string",
-  "notes": "string or null",
-  "confidence": "high | medium | low"
+PRESCRIPTION_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "patient_name": {"type": ["string", "null"]},
+        "medicines": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {"type": ["string", "null"]},
+                    "dosage": {"type": ["string", "null"]},
+                    "frequency": {"type": ["string", "null"]},
+                    "duration": {"type": ["string", "null"]},
+                    "instructions": {"type": ["string", "null"]},
+                },
+                "required": ["name", "dosage", "frequency", "duration", "instructions"],
+                "additionalProperties": False,
+            },
+        },
+        "notes": {"type": ["string", "null"]},
+        "confidence": {"type": "string", "enum": ["high", "medium", "low"]},
+    },
+    "required": ["patient_name", "medicines", "notes", "confidence"],
+    "additionalProperties": False,
 }
 
-If a field is not mentioned in the transcript, set it to null. Set
-"confidence" based on how clearly the transcript specified each field.
+EXTRACTION_INSTRUCTIONS = """You are a prescription transcription assistant for a prototype.
+Extract only information visible in the image or stated in the transcript.
+Do not invent missing medicine details; use null. Preserve medicine names and dosages as written.
+The result is for demonstration only and must not include diagnosis or medical advice."""
 
-Transcript:
-\"\"\"
-{TRANSCRIPT_TEXT_HERE}
-\"\"\""""
 
-SCHEMA_PROMPT_IMAGE = """You are reading a photo of a handwritten or printed prescription. Extract
-structured fields and return ONLY valid JSON matching this schema, with no
-text before or after it:
+def build_client() -> OpenAI:
+    load_dotenv()
+    if not os.getenv("OPENAI_API_KEY"):
+        raise RuntimeError("OPENAI_API_KEY is missing. Copy .env.example to .env and add your key.")
+    return OpenAI()
 
-{
-  "patient_name": "string or null",
-  "medicine": "string",
-  "dosage": "string",
-  "frequency": "string",
-  "duration": "string",
-  "notes": "string or null",
-  "confidence": "high | medium | low"
-}
 
-If handwriting is unclear, make your best reasonable guess and set
-"confidence" to "low" for that field's overall record. If a field is not
-present in the image, set it to null."""
-
-def transcribe_audio(path):
-    with open(path, "rb") as f:
-        transcript = client.audio.transcriptions.create(model="whisper-1", file=f)
+def transcribe_audio(client: OpenAI, path: Path) -> str:
+    model = os.getenv("OPENAI_TRANSCRIPTION_MODEL", "gpt-4o-mini-transcribe")
+    with path.open("rb") as audio_file:
+        transcript = client.audio.transcriptions.create(model=model, file=audio_file)
     return transcript.text
 
-def structure_from_text(transcript_text):
-    prompt = SCHEMA_PROMPT_AUDIO.format(TRANSCRIPT_TEXT_HERE=transcript_text)
-    resp = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return json.loads(resp.choices[0].message.content)
 
-def structure_from_image(path):
-    import base64
-    with open(path, "rb") as f:
-        b64 = base64.b64encode(f.read()).decode()
-    resp = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[{
-            "role": "user",
-            "content": [
-                {"type": "text", "text": SCHEMA_PROMPT_IMAGE},
-                {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{b64}"}}
-            ]
-        }],
+def extract_structured(client: OpenAI, content: Any) -> dict[str, Any]:
+    model = os.getenv("OPENAI_VISION_MODEL", "gpt-4.1-mini")
+    response = client.responses.create(
+        model=model,
+        instructions=EXTRACTION_INSTRUCTIONS,
+        input=[{"role": "user", "content": content}],
+        text={
+            "format": {
+                "type": "json_schema",
+                "name": "prescription",
+                "strict": True,
+                "schema": PRESCRIPTION_SCHEMA,
+            }
+        },
+        store=False,
     )
-    return json.loads(resp.choices[0].message.content)
+    if not response.output_text:
+        raise RuntimeError("The model returned no structured output.")
+    return json.loads(response.output_text)
+
+
+def extract_from_audio(client: OpenAI, path: Path) -> tuple[dict[str, Any], str]:
+    transcript = transcribe_audio(client, path)
+    content = [{"type": "input_text", "text": f"Prescription transcript:\n{transcript}"}]
+    return extract_structured(client, content), transcript
+
+
+def extract_from_image(client: OpenAI, path: Path) -> dict[str, Any]:
+    mime_type = mimetypes.guess_type(path.name)[0] or "image/jpeg"
+    encoded = base64.b64encode(path.read_bytes()).decode("ascii")
+    content = [
+        {"type": "input_text", "text": "Extract the prescription from this image."},
+        {"type": "input_image", "image_url": f"data:{mime_type};base64,{encoded}", "detail": "high"},
+    ]
+    return extract_structured(client, content)
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("input", type=Path, help="Path to an audio recording or prescription image")
+    parser.add_argument("--output", "-o", type=Path, help="Optional path for the JSON result")
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_args()
+    path = args.input.expanduser().resolve()
+    if not path.is_file():
+        print(f"Error: input file not found: {path}", file=sys.stderr)
+        return 2
+
+    extension = path.suffix.lower()
+    if extension not in AUDIO_EXTENSIONS | IMAGE_EXTENSIONS:
+        supported = ", ".join(sorted(AUDIO_EXTENSIONS | IMAGE_EXTENSIONS))
+        print(f"Error: unsupported file type '{extension}'. Supported: {supported}", file=sys.stderr)
+        return 2
+
+    try:
+        client = build_client()
+        transcript = None
+        if extension in AUDIO_EXTENSIONS:
+            result, transcript = extract_from_audio(client, path)
+        else:
+            result = extract_from_image(client, path)
+
+        payload = {"source_file": path.name, "transcript": transcript, "prescription": result}
+        rendered = json.dumps(payload, indent=2, ensure_ascii=False)
+        print(rendered)
+        if args.output:
+            args.output.parent.mkdir(parents=True, exist_ok=True)
+            args.output.write_text(rendered + "\n", encoding="utf-8")
+            print(f"Saved result to {args.output}", file=sys.stderr)
+        return 0
+    except (RuntimeError, json.JSONDecodeError, OSError) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
+    except Exception as exc:
+        print(f"API error: {exc}", file=sys.stderr)
+        return 1
+
 
 if __name__ == "__main__":
-    path = sys.argv[1]
-    if path.lower().endswith((".mp3", ".wav", ".m4a")):
-        text = transcribe_audio(path)
-        print("Transcript:", text)
-        result = structure_from_text(text)
-    else:
-        result = structure_from_image(path)
-    print(json.dumps(result, indent=2))
+    raise SystemExit(main())

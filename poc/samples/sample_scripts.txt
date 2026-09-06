@@ -1,0 +1,20 @@
+AUDIO SCRIPT 1 — clear, one medicine
+Patient name is Aarav Mehta. Prescribe tablet Paracetamol 500 milligrams, one tablet twice daily after food for three days. Drink plenty of water.
+
+AUDIO SCRIPT 2 — natural phrasing
+For patient Meera Nair, start cetirizine 10 milligrams once at night for five days. It may cause drowsiness.
+
+AUDIO SCRIPT 3 — two medicines
+Patient is Kabir Sharma. Amoxicillin 500 milligrams, one capsule three times daily after meals for five days. Also prescribe pantoprazole 40 milligrams once daily before breakfast for five days.
+
+IMAGE SCRIPT 1 — handwritten
+Patient: Ananya Rao
+Tab. Azithromycin 500 mg
+Once daily after food — 3 days
+Note: Complete the course
+
+IMAGE SCRIPT 2 — printed or less-neat handwriting
+Patient: Rohan Das
+1. Tab. Metformin 500 mg — twice daily after meals — 30 days
+2. Tab. Vitamin D3 1000 IU — once daily — 30 days
+Review after 30 days

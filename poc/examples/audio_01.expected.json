@@ -1,0 +1,10 @@
+{
+  "source_file": "audio_01.m4a",
+  "transcript": "Patient name is Aarav Mehta. Prescribe tablet Paracetamol 500 milligrams, one tablet twice daily after food for three days. Drink plenty of water.",
+  "prescription": {
+    "patient_name": "Aarav Mehta",
+    "medicines": [{"name": "Paracetamol", "dosage": "500 mg", "frequency": "one tablet twice daily", "duration": "3 days", "instructions": "after food"}],
+    "notes": "Drink plenty of water.",
+    "confidence": "high"
+  }
+}
