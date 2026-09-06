@@ -5,12 +5,13 @@ Use only fictional names and invented prescription details.
 ## Audio samples
 
 1. Open the Voice Recorder app on your phone.
-2. Read one script from `sample_scripts.txt` naturally, as if you are a doctor.
-3. Keep each recording between 10 and 20 seconds.
-4. Record in a quiet room with the phone about 20 cm from your mouth.
-5. Export/share it to this folder as `audio_01.m4a`, `audio_02.m4a`, and `audio_03.m4a`.
+2. Record each doctor-patient dialogue naturally. Two people can read the roles, or one person can pause briefly and change tone between speakers.
+3. Do not read the words `Doctor:` and `Patient:` aloud.
+4. Keep each recording between 20 and 40 seconds.
+5. Record in a quiet room with the phone about 20 cm from the speakers.
+6. Export/share it to this folder as `audio_01.m4a`, `audio_02.m4a`, and `audio_03.m4a`.
 
-Sample 1 is English, sample 2 is Hinglish, and sample 3 is Tanglish with two medicines. Read the mixed-language scripts naturally; do not imitate an accent or translate them while recording.
+Sample 1 is English, sample 2 is Hinglish, and sample 3 is Tanglish with two medicines. None explicitly dictates a patient name or says “prescribe”; the extractor must infer the final record from the conversation.
 
 ## Image samples
 

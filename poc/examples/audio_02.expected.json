@@ -1,6 +1,6 @@
 {
   "source_file": "audio_02.m4a",
-  "transcript": "Patient ka naam Meera Nair hai. Cetirizine 10 milligrams raat ko ek baar, paanch din ke liye dena hai. Isse neend aa sakti hai.",
+  "transcript": "Namaste, aapka naam kya hai? Meera Nair. Meera ji, kya problem ho rahi hai? Mujhe do din se sneezing aur naak mein itching ho rahi hai. Theek hai. Cetirizine 10 milligrams raat ko ek baar, paanch din tak lijiye. Isse neend aa sakti hai. Theek hai, doctor.",
   "prescription": {
     "patient_name": "Meera Nair",
     "medicines": [{"name": "Cetirizine", "dosage": "10 mg", "frequency": "once at night", "duration": "5 days", "instructions": null}],

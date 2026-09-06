@@ -1,11 +1,26 @@
-AUDIO SCRIPT 1 — clear, one medicine
-Patient name is Aarav Mehta. Prescribe tablet Paracetamol 500 milligrams, one tablet twice daily after food for three days. Drink plenty of water.
+AUDIO SCRIPT 1 — English conversation, one medicine
+Doctor: Good morning. What should I call you?
+Patient: I am Aarav Mehta.
+Doctor: What brings you in today, Aarav?
+Patient: I have had fever and body pain since yesterday.
+Doctor: All right. Take Paracetamol 500 milligrams, one tablet twice daily after food for three days. Drink plenty of water.
+Patient: Okay, doctor.
 
-AUDIO SCRIPT 2 — Hinglish
-Patient ka naam Meera Nair hai. Cetirizine 10 milligrams raat ko ek baar, paanch din ke liye dena hai. Isse neend aa sakti hai.
+AUDIO SCRIPT 2 — Hinglish conversation
+Doctor: Namaste, aapka naam kya hai?
+Patient: Meera Nair.
+Doctor: Meera ji, kya problem ho rahi hai?
+Patient: Mujhe do din se sneezing aur naak mein itching ho rahi hai.
+Doctor: Theek hai. Cetirizine 10 milligrams raat ko ek baar, paanch din tak lijiye. Isse neend aa sakti hai.
+Patient: Theek hai, doctor.
 
-AUDIO SCRIPT 3 — Tanglish, two medicines
-Patient peru Kabir Sharma. Amoxicillin 500 milligrams, oru capsule moonu vaati saapadukku appuram, anju naal edukkanum. Pantoprazole 40 milligrams kaalaila breakfast-ku munnadi oru vaati, anju naal edukkanum.
+AUDIO SCRIPT 3 — Tanglish conversation, two medicines
+Doctor: Vanakkam, unga peru enna?
+Patient: En peru Kabir Sharma.
+Doctor: Kabir, enna problem?
+Patient: Moonu naala throat pain irukku, saapida kashtama irukku.
+Doctor: Sari. Amoxicillin 500 milligrams, oru capsule moonu vaati saapadukku appuram, anju naal edunga. Pantoprazole 40 milligrams kaalaila breakfast-ku munnadi oru vaati, anju naal edunga.
+Patient: Sari, doctor.
 
 IMAGE SCRIPT 1 — handwritten
 Patient: Ananya Rao

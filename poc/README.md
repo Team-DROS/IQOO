@@ -14,7 +14,7 @@ Copy-Item .env.example .env
 
 Open `.env` and add both a Groq API key and an OpenAI API key. Do not commit `.env`.
 
-Audio follows this pipeline: Groq `whisper-large-v3` transcription → OpenAI structured JSON extraction. Language detection is left automatic because recordings may mix English with Hindi or Tamil. Prescription images remain English-only and go directly to the vision extraction stage.
+Audio follows this pipeline: natural doctor-patient conversation → Groq `whisper-large-v3` transcription → OpenAI structured JSON extraction. The extractor infers the patient name and final medication plan from context. Language detection is automatic because recordings may mix English with Hindi or Tamil. Prescription images remain English-only and go directly to the vision extraction stage.
 
 ## Run
 

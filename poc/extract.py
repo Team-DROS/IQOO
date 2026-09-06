@@ -44,9 +44,12 @@ PRESCRIPTION_SCHEMA: dict[str, Any] = {
     "additionalProperties": False,
 }
 
-EXTRACTION_INSTRUCTIONS = """You are a multilingual prescription transcription assistant for a prototype.
+EXTRACTION_INSTRUCTIONS = """You are a multilingual clinical-conversation extraction assistant for a prototype.
 Extract only information visible in the image or stated in the transcript.
 Do not invent missing medicine details; use null. Preserve medicine names and dosages as written.
+For audio, infer the patient's name from natural introductions or how the doctor addresses the patient.
+Extract only medicines that the doctor recommends in the current conversation, not medicines merely
+mentioned as allergies, previous treatments, examples, questions, or drugs the patient stopped taking.
 The transcript may mix English with Hindi or Tamil. Return all structured fields in English,
 translating only ordinary instructions while preserving medicine names, units, and numbers exactly.
 The result is for demonstration only and must not include diagnosis or medical advice."""
@@ -68,9 +71,10 @@ def transcribe_audio(client: Groq, path: Path) -> str:
             model=model,
             file=(path.name, audio_file.read()),
             prompt=(
-                "This is an Indian doctor's code-switched prescription dictation. "
+                "This is a natural conversation between an Indian doctor and patient. "
                 "Accurately preserve patient names, medicine names, dosages, units, "
-                "frequency, and duration. Speech may mix English with Hindi or Tamil."
+                "frequency, and duration. Speech may mix English with Hindi or Tamil. "
+                "Do not summarize or translate the conversation."
             ),
             response_format="json",
             temperature=0.0,
@@ -103,7 +107,7 @@ def extract_from_audio(
     transcription_client: Groq, extraction_client: OpenAI, path: Path
 ) -> tuple[dict[str, Any], str]:
     transcript = transcribe_audio(transcription_client, path)
-    content = [{"type": "input_text", "text": f"Prescription transcript:\n{transcript}"}]
+    content = [{"type": "input_text", "text": f"Doctor-patient conversation transcript:\n{transcript}"}]
     return extract_structured(extraction_client, content), transcript
 
 
