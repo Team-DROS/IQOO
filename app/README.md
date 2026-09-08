@@ -1,8 +1,10 @@
 # VaidyaVani — Mobile App
 
-The phone-first doctor experience for VaidyaVani, built with React Native and Expo. It runs
-the complete consultation journey on **mock data** — no backend or API key required — so the
-flow can be demoed anywhere, including in a browser.
+The phone-first doctor experience for VaidyaVani, built with React Native and Expo. It runs the
+complete consultation journey on **mock data**, so the flow demos anywhere — including in a
+browser — without starting the backend or holding an API key. Pointing it at the live
+[`backend/`](../backend/) API is a change inside the service layer only; see
+[Connecting a real backend](#connecting-a-real-backend).
 
 ## Run it
 

@@ -16,9 +16,10 @@ backend, and extraction pipeline.
 
 ## Data shapes
 
-The app, backend, and POC all speak one JSON shape (documented in the
-[root README](README.md#data-shapes)). If you need to change a field, raise it
-with the team first — the app's service layer and the backend adapter both depend on it.
+The app and the backend use **different JSON shapes** today, bridged by an adapter inside the
+app's service layer. Both shapes and the field mapping between them are documented in the
+[root README](README.md#data-shapes). If you change a field on either side, raise it with the
+team first — the adapter depends on both.
 
 ## Per-package setup
 
