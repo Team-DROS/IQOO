@@ -26,14 +26,14 @@
         "name": "T. Pan tong"
       },
       {
-        "dosage": "650",
+        "dosage": "650 mg",
         "duration": null,
         "frequency": "SOS",
         "instructions": "for fever/pain",
         "name": "T. Dolo"
       }
     ],
-    "notes": "Follow up in med OPD SOS if reports. oral fluids",
+    "notes": "Follow up in medical OPD with reports. Maintain oral fluids.",
     "patient_name": null
   }
 }
