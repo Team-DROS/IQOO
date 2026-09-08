@@ -60,7 +60,7 @@ The result is for demonstration only and must not include diagnosis or medical a
 
 
 def build_client() -> Groq:
-    load_dotenv()
+    load_dotenv(Path(__file__).with_name(".env"))
     if not os.getenv("GROQ_API_KEY"):
         raise RuntimeError("GROQ_API_KEY is missing. Copy .env.example to .env and add your key.")
     return Groq(api_key=os.getenv("GROQ_API_KEY"))
