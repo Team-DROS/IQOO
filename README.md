@@ -54,8 +54,8 @@ flowchart LR
         A[Dictate / Scan] --> B[Review draft] --> C[Confirm prescription] --> D[Patient timeline]
     end
     subgraph API["⚙️ backend/ — FastAPI"]
-        E[/POST /extract/audio/]
-        F[/POST /extract/image/]
+        E[/POST /api/v1/extract/audio/]
+        F[/POST /api/v1/extract/image/]
     end
     subgraph AI["🧠 poc/ — extraction pipeline"]
         G[Groq Whisper large-v3<br/>transcription]
@@ -67,10 +67,12 @@ flowchart LR
     H -. structured JSON .-> B
 ```
 
-The app talks to the backend through a small service layer
-([`app/src/services/consultationService.js`](app/src/services/consultationService.js)),
-which currently returns mock promises. Swapping in real API calls does not require changing
-any screen — the [consultation contract](#the-consultation-contract) is the single source of truth.
+The app talks to the backend **only** through a small service layer
+([`app/src/services/consultationService.js`](app/src/services/consultationService.js)), which
+today returns mock promises. Screens depend on that layer alone, so going live means
+implementing it against the API and mapping the response into the app's data model — no
+screen changes required. The two layers use **different shapes today** (see
+[Data shapes](#data-shapes)); a small adapter bridges them.
 
 ## Quick start
 
@@ -88,6 +90,9 @@ Runs entirely on mock data — no backend or API key required. See [app/README.m
 
 ### Backend API (`backend/`)
 
+Run these **from the repository root** (the API imports the pipeline from `poc/`). The
+requirements pull in `poc/`'s dependencies, so one virtualenv covers both.
+
 ```bash
 python -m venv backend/.venv
 backend/.venv/bin/python -m pip install -r backend/requirements.txt
@@ -95,7 +100,9 @@ cp backend/.env.example backend/.env         # add your Groq API key
 backend/.venv/bin/python -m uvicorn backend.main:app --reload --port 8000 --env-file backend/.env
 ```
 
-Interactive API docs at `http://localhost:8000/docs`. See [backend/README.md](backend/README.md).
+Interactive API docs at `http://localhost:8000/docs`. Endpoints: `GET /health`,
+`POST /api/v1/extract/audio`, `POST /api/v1/extract/image`. See
+[backend/README.md](backend/README.md).
 
 ### Extraction POC (`poc/`)
 
@@ -109,10 +116,14 @@ python extract.py samples/audio_01.mp4 --output examples/audio_01.json
 
 See [poc/README.md](poc/README.md) and [poc/EVALUATION.md](poc/EVALUATION.md).
 
-## The consultation contract
+## Data shapes
 
-Every layer speaks the same shape, so the mock service and the real backend are
-interchangeable:
+The app and the backend use **two different shapes today**, and a small adapter maps the
+backend response into the app's model during integration. They are documented here so that
+mapping is unambiguous.
+
+**App model** — what the screens and the mock service
+([`consultationService.js`](app/src/services/consultationService.js)) consume:
 
 ```jsonc
 {
@@ -135,6 +146,34 @@ interchangeable:
 
 `language` is one of `english` · `hinglish` · `tanglish`. `status` moves from
 `needs_review` to `confirmed` only after the doctor confirms.
+
+**Backend response** — what `POST /api/v1/extract/{audio,image}` actually returns today
+(see [`backend/main.py`](backend/main.py)):
+
+```jsonc
+{
+  "source_file": "audio_01.mp4",
+  "source_type": "audio",
+  "transcript":  "…",
+  "prescription": {
+    "patient_name": "Meena Rajan",
+    "medicines": [
+      { "name": "Cetirizine", "dosage": "10 mg", "frequency": "Once at night",
+        "duration": "5 days", "instructions": "May cause drowsiness" }
+    ],
+    "notes":      "…",
+    "confidence": "medium"
+  },
+  "requires_review": true
+}
+```
+
+**Mapping notes for integration:** `prescription.patient_name` → `patient.name`,
+`prescription.medicines` → `clinical.medicines`, `prescription.notes` → `clinical.notes`,
+and `confidence` / `requires_review` drive `warnings` and `status`. The app UI also has
+`clinical.symptoms`, `clinical.diagnosis`, and `clinical.advice`, which the extraction
+backend does **not** produce yet — the adapter should default these (e.g. empty) until the
+pipeline emits them.
 
 ## The app, screen by screen
 
