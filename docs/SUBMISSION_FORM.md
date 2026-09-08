@@ -46,24 +46,46 @@ draft, with low-confidence fields flagged for the doctor to confirm.
 
 ## Prior builds / experience
 
-- ML data pipelines and hands-on experience structuring messy real-world input into
-  usable schemas.
-- Biomedical signal processing background — direct relevance to a healthcare data product.
-- Hardware integration experience, relevant to the Office Kit phone-to-laptop sync piece.
+- 2nd Runner-Up — NitroStack x Amrita 2026 (agentic food rescue system, shipped and demoed
+  live to judges).
+- Top 51–100 of 6,219 ideas — HackHazards '26 (HaemNet, an AI-driven blood dispatch system,
+  live end-to-end).
+- Shipped across agentic orchestration + voice AI (Food Rescue, HaemNet), edge computer
+  vision on real hardware (PrivaSafe: YOLOv8 + GPS on Raspberry Pi), and quantitative ML
+  (RiskLens/VolGraph: LSTM-GNN, ~61% directional accuracy) — range across the exact skills
+  this brief needs: voice AI, on-device/hardware constraints, and structured-data ML.
+- Biomedical signal processing + hardware integration background — direct relevance to
+  making constrained hardware (Pi, sensors, on-device phone tech) do real computational
+  work rather than just display it.
 - Team has already shipped the two hardest feasibility questions for this idea before
   submission: a working click-through mockup and a validated multilingual extraction POC —
   not just a slide deck of intentions.
 
 ## What makes your team stand out
 
-Most idea submissions at this stage are a deck describing what a team *plans* to build. Ours
-includes a POC pipeline actually run against multilingual audio and real prescription-photo
-difficulty levels, with an honest evaluation of where it fails (patient names, dense
-handwriting) — and a design response to those failures (confirmation-first UX) baked into the
-mockup, not bolted on afterward. The idea also targets a gap the obvious Western comparables
-(Suki, Nuance, Abridge) structurally cannot serve: multilingual, non-EHR, tier-2/3 Indian
-hospitals — evidenced with the same market data cited in the deck (ABDM private-facility
-adoption gap, incumbent pricing).
+**Track record, not theory.** Two hackathon podiums with working, judge-defended products —
+2nd Runner-Up at NitroStack x Amrita 2026 (agentic food rescue) and top 51–100 of 6,219 ideas
+at HackHazards '26 (HaemNet, a live blood-dispatch AI system). We don't just pitch; we've
+built and defended real systems under the same kind of sprint conditions this round asks for.
+
+**Range.** Most teams are strong at one thing. We've shipped agentic orchestration and voice
+AI (Food Rescue, HaemNet), edge computer vision on real hardware (PrivaSafe: YOLOv8 + GPS on
+a Raspberry Pi), and quantitative ML (RiskLens/VolGraph: LSTM-GNN, ~61% directional accuracy).
+That range — voice, hardware constraints, structured extraction — is exactly what a
+phone-first, technically-deep brief like this rewards.
+
+**Domain edge.** A biomedical signal processing and hardware integration background means we
+already know how to make constrained hardware (Pi, sensors, on-device phone tech) do real
+computational work, not just act as a display — directly relevant to VaidyaVani's on-device
+STT stretch goal and Office Kit sync.
+
+**Speed.** 30-hour build windows are normal for us, not a stretch — both hackathon podiums
+came from exactly this kind of sprint. On top of that track record, this idea also targets a
+gap the obvious Western comparables (Suki, Nuance, Abridge) structurally cannot serve:
+multilingual, non-EHR, tier-2/3 Indian hospitals — backed by the same market data cited in
+the deck (ABDM private-facility adoption gap, incumbent pricing) and by a POC pipeline
+already run and evaluated against real multilingual audio and prescription-photo samples,
+not just a plan.
 
 ## Links
 
