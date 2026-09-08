@@ -1,3 +1,5 @@
+![VaidyaVani — Multilingual Clinical Intelligence](assets/vaidyavani-readme-banner.png)
+
 # VaidyaVani Prototype
 
 This repository contains the prototype for the VaidyaVani idea submission for the iQOO hackathon.
