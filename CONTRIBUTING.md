@@ -14,10 +14,10 @@ backend, and extraction pipeline.
   the `.env.example` in each package.
 - **Use invented demo data only.** Never commit or upload a real patient's records.
 
-## The consultation contract
+## Data shapes
 
 The app, backend, and POC all speak one JSON shape (documented in the
-[root README](README.md#the-consultation-contract)). If you need to change a field, raise it
+[root README](README.md#data-shapes)). If you need to change a field, raise it
 with the team first — the app's service layer and the backend adapter both depend on it.
 
 ## Per-package setup

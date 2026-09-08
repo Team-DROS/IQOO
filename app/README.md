@@ -60,7 +60,7 @@ app/
 │   ├── constants/theme.js     # colour, spacing, radius, type scale, shadows
 │   ├── data/mockData.js       # doctors, patients, per-language consultation scenarios
 │   ├── services/
-│   │   └── consultationService.js   # mock promises against the consultation contract
+│   │   └── consultationService.js   # mock promises in the app model (see root README)
 │   ├── components/            # reusable UI (see catalogue below)
 │   └── screens/               # the nine screens above
 ```
@@ -76,10 +76,12 @@ app/
 
 Screens never call the network directly — they call the service layer in
 [`src/services/consultationService.js`](src/services/consultationService.js), which today
-returns mock promises shaped like the consultation contract (see the
-[root README](../README.md#the-consultation-contract)). To go live, replace the internals of
-`processConsultation()` with a call to the backend's `/api/v1/extract/*` endpoints and return
-the same shape. **Do not rename the contract fields** — the backend adapter depends on them.
+returns mock promises in the **app model** (see [Data shapes](../README.md#data-shapes) in
+the root README). To go live, replace the internals of `processConsultation()` with a call to
+the backend's `POST /api/v1/extract/{audio,image}` endpoints, then **map the backend response
+into the app model** — the two shapes differ (the backend returns `prescription.patient_name`,
+`prescription.medicines`, `confidence`, etc.). Keep the app-model field names the screens read
+unchanged; do the translation inside the service layer so no screen has to change.
 
 ## Notes
 
