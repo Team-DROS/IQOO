@@ -5,8 +5,10 @@ This folder holds the required idea-submission artifacts for VaidyaVani.
 - `VaidyaVani_Deck.pptx` — the pitch deck: problem + evidence, solution flow (built from
   real screenshots of the mockup in `../app`), market-gap differentiation vs. Suki/Nuance
   DAX/Abridge, POC evaluation results, 30-hour MVP scope, and team/prior work.
-- `screenshots/` — screenshots of the four click-through mockup screens, captured directly
-  from the running Expo app (`../app`) and used in the deck's solution-flow slide.
+- `screenshots/` — the original four click-through mockup screens, captured from the early
+  Expo app and used in the deck's solution-flow slide.
+- `screenshots/app/` — the current nine-screen app UI, captured from the running app; these
+  are what the root and app READMEs display.
 - `video/vaidyavani_walkthrough.mp4` — the 60–90 second walkthrough recording narrating the
   mockup as if it were live.
 - `SUBMISSION_FORM.md` — drafted answers for the actual submission form fields (title,
