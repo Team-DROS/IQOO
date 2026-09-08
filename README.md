@@ -86,7 +86,9 @@ npm install
 npm run web          # opens the app in a browser; or `npm start` for Expo Go on a device
 ```
 
-Runs entirely on mock data — no backend or API key required. See [app/README.md](app/README.md).
+Runs standalone on mock data, so the whole flow demos without starting the backend or holding
+an API key. To point it at the live [`backend/`](backend/) API instead, swap the internals of
+the service layer — see [app/README.md](app/README.md).
 
 ### Backend API (`backend/`)
 
