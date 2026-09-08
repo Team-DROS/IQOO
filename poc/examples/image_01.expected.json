@@ -1,0 +1,10 @@
+{
+  "source_file": "image_01.jpg",
+  "transcript": null,
+  "prescription": {
+    "patient_name": "Ananya Rao",
+    "medicines": [{"name": "Azithromycin", "dosage": "500 mg", "frequency": "once daily", "duration": "3 days", "instructions": "after food"}],
+    "notes": "Complete the course.",
+    "confidence": "high"
+  }
+}

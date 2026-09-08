@@ -1,0 +1,35 @@
+AUDIO SCRIPT 1 — English conversation, one medicine
+Doctor: Good morning. What should I call you?
+Patient: I am Aarav Mehta.
+Doctor: What brings you in today, Aarav?
+Patient: I have had fever and body pain since yesterday.
+Doctor: All right. Take Paracetamol 500 milligrams, one tablet twice daily after food for three days. Drink plenty of water.
+Patient: Okay, doctor.
+
+AUDIO SCRIPT 2 — Hinglish conversation
+Doctor: Namaste, aapka naam kya hai?
+Patient: Meera Nair.
+Doctor: Meera ji, kya problem ho rahi hai?
+Patient: Mujhe do din se sneezing aur naak mein itching ho rahi hai.
+Doctor: Theek hai. Cetirizine 10 milligrams raat ko ek baar, paanch din tak lijiye. Isse neend aa sakti hai.
+Patient: Theek hai, doctor.
+
+AUDIO SCRIPT 3 — Tanglish conversation, two medicines
+Doctor: Vanakkam, unga peru enna?
+Patient: En peru Kabir Sharma.
+Doctor: Kabir, enna problem?
+Patient: Moonu naala throat pain irukku, saapida kashtama irukku.
+Doctor: Sari. Amoxicillin 500 milligrams, oru capsule moonu vaati saapadukku appuram, anju naal edunga. Pantoprazole 40 milligrams kaalaila breakfast-ku munnadi oru vaati, anju naal edunga.
+Patient: Sari, doctor.
+
+IMAGE SCRIPT 1 — handwritten
+Patient: Ananya Rao
+Tab. Azithromycin 500 mg
+Once daily after food — 3 days
+Note: Complete the course
+
+IMAGE SCRIPT 2 — printed or less-neat handwriting
+Patient: Rohan Das
+1. Tab. Metformin 500 mg — twice daily after meals — 30 days
+2. Tab. Vitamin D3 1000 IU — once daily — 30 days
+Review after 30 days

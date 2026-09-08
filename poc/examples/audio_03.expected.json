@@ -1,0 +1,13 @@
+{
+  "source_file": "audio_03.mp4",
+  "transcript": "Vanakkam, unga peru enna? En peru Kabir Sharma. Kabir, enna problem? Moonu naala throat pain irukku, saapida kashtama irukku. Sari. Amoxicillin 500 milligrams, oru capsule moonu vaati saapadukku appuram, anju naal edunga. Pantoprazole 40 milligrams kaalaila breakfast-ku munnadi oru vaati, anju naal edunga. Sari, doctor.",
+  "prescription": {
+    "patient_name": "Kabir Sharma",
+    "medicines": [
+      {"name": "Amoxicillin", "dosage": "500 mg", "frequency": "one capsule three times daily", "duration": "5 days", "instructions": "after food"},
+      {"name": "Pantoprazole", "dosage": "40 mg", "frequency": "once daily", "duration": "5 days", "instructions": "before breakfast"}
+    ],
+    "notes": null,
+    "confidence": "high"
+  }
+}

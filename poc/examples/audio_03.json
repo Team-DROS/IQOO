@@ -1,0 +1,25 @@
+{
+  "source_file": "audio_03.mp4",
+  "transcript": " வணக்கம்! உங்க பேர் என்ன? என் பேர் கபீர் செர்மா. கபீர் என்ன பிராப்பலம்? மூன்று நாளா த்ரோட் பேன் இருக்கு. சாப்பிட கஷ்ணமா இருக்கு டாக்டர். Amoxicillin 500mg, ஒரு கேப்சியுள் மூன்று வாட்டி சாப்பிடதுக்கு அப்புறம் 5 நாள் எடுங்க. Pantoprazole, 40 mg, breakfast 5 days.",
+  "prescription": {
+    "confidence": "high",
+    "medicines": [
+      {
+        "dosage": "500mg",
+        "duration": "5 days",
+        "frequency": "three times a day",
+        "instructions": "after food",
+        "name": "Amoxicillin"
+      },
+      {
+        "dosage": "40 mg",
+        "duration": "5 days",
+        "frequency": "once daily",
+        "instructions": "breakfast",
+        "name": "Pantoprazole"
+      }
+    ],
+    "notes": "Throat pain for three days, difficulty eating",
+    "patient_name": "Kabir Sherma"
+  }
+}

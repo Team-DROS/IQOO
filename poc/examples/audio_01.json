@@ -1,0 +1,18 @@
+{
+  "source_file": "audio_01.mp4",
+  "transcript": " Good morning, what should I call you? I am Aarumethha. What brings you in today, Aarum? I have had fever and body pain since yesterday. Alright, take Paracetamol 500mg, 1 tablet twice daily, after food for 3 days. Drink plenty of water. Ok, doctor.",
+  "prescription": {
+    "confidence": "high",
+    "medicines": [
+      {
+        "dosage": "500mg",
+        "duration": "3 days",
+        "frequency": "twice daily",
+        "instructions": "after food",
+        "name": "Paracetamol"
+      }
+    ],
+    "notes": "Patient Aarumethha presents with fever and body pain since yesterday. Doctor recommends Paracetamol 500mg twice daily after food for 3 days and advises drinking plenty of water.",
+    "patient_name": "Aarumethha"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "source_file": "image_01_normal.png",
+  "transcript": null,
+  "prescription": {
+    "confidence": "medium",
+    "medicines": [
+      {
+        "dosage": "500 mg",
+        "duration": "7 days",
+        "frequency": "1-0-0",
+        "instructions": null,
+        "name": "T. Azee"
+      },
+      {
+        "dosage": null,
+        "duration": null,
+        "frequency": "1-1-1",
+        "instructions": "1 tsp",
+        "name": "Syp Tusq"
+      },
+      {
+        "dosage": null,
+        "duration": "7 days",
+        "frequency": "1-0-0",
+        "instructions": null,
+        "name": "T. Pan tong"
+      },
+      {
+        "dosage": "650 mg",
+        "duration": null,
+        "frequency": "SOS",
+        "instructions": "for fever/pain",
+        "name": "T. Dolo"
+      }
+    ],
+    "notes": "Follow up in medical OPD with reports. Maintain oral fluids.",
+    "patient_name": null
+  }
+}
