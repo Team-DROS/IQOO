@@ -170,7 +170,3 @@ never upload a real patient's data.
 
 Built for the iQOO Reskill Hackathon by **Team DROS** — Srinath Balakrishnan, Pranesh S,
 and Umasuthan.
-
-## License
-
-Released under the [MIT License](LICENSE).
