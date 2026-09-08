@@ -59,6 +59,11 @@ class HealthResponse(BaseModel):
     groq_configured: bool
 
 
+class DemoRequest(BaseModel):
+    source_type: Literal["audio", "image"] = "audio"
+    language: Literal["english", "hinglish", "tanglish"] = "english"
+
+
 app = FastAPI(
     title="VaidyaVani API",
     description="Prototype API for multilingual clinical transcription and prescription extraction.",
@@ -110,16 +115,18 @@ async def _save_upload(upload: UploadFile, allowed: set[str]) -> Path:
         handle.close()
 
 
-async def _extract(upload: UploadFile, source_type: Literal["audio", "image"]) -> ExtractionResponse:
-    allowed = AUDIO_EXTENSIONS if source_type == "audio" else IMAGE_EXTENSIONS
-    temp_path = await _save_upload(upload, allowed)
-    display_name = Path(upload.filename or temp_path.name).name
+async def _extract_path(
+    path: Path,
+    display_name: str,
+    source_type: Literal["audio", "image"],
+) -> ExtractionResponse:
+    """Run the blocking Groq pipeline for one validated local file."""
     try:
         client = build_client()
         if source_type == "audio":
-            prescription, transcript = await asyncio.to_thread(extract_from_audio, client, temp_path)
+            prescription, transcript = await asyncio.to_thread(extract_from_audio, client, path)
         else:
-            prescription = await asyncio.to_thread(extract_from_image, client, temp_path)
+            prescription = await asyncio.to_thread(extract_from_image, client, path)
             transcript = None
         return ExtractionResponse(
             source_file=display_name,
@@ -138,6 +145,14 @@ async def _extract(upload: UploadFile, source_type: Literal["audio", "image"]) -
             status_code=502,
             detail="Extraction failed. Check the input and try again.",
         ) from exc
+
+
+async def _extract(upload: UploadFile, source_type: Literal["audio", "image"]) -> ExtractionResponse:
+    allowed = AUDIO_EXTENSIONS if source_type == "audio" else IMAGE_EXTENSIONS
+    temp_path = await _save_upload(upload, allowed)
+    display_name = Path(upload.filename or temp_path.name).name
+    try:
+        return await _extract_path(temp_path, display_name, source_type)
     finally:
         temp_path.unlink(missing_ok=True)
 
@@ -152,3 +167,19 @@ async def extract_audio(file: Annotated[UploadFile, File(description="Doctor-pat
 async def extract_image(file: Annotated[UploadFile, File(description="English prescription image")]) -> ExtractionResponse:
     """Extract structured fields from a prescription image."""
     return await _extract(file, "image")
+
+
+@app.post("/api/v1/demo", response_model=ExtractionResponse, tags=["demo"])
+async def extract_demo(request: DemoRequest) -> ExtractionResponse:
+    """Run an included invented sample for the click-through prototype."""
+    sample_root = Path(__file__).parents[1] / "poc" / "samples"
+    audio_samples = {
+        "english": "audio_01.mp4",
+        "hinglish": "audio_02.mp4",
+        "tanglish": "audio_03.mp4",
+    }
+    filename = audio_samples[request.language] if request.source_type == "audio" else "image_01_normal.png"
+    sample_path = sample_root / filename
+    if not sample_path.is_file():
+        raise HTTPException(status_code=503, detail="The requested demo sample is unavailable.")
+    return await _extract_path(sample_path, filename, request.source_type)

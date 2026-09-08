@@ -81,6 +81,14 @@ returns mock promises shaped like the consultation contract (see the
 `processConsultation()` with a call to the backend's `/api/v1/extract/*` endpoints and return
 the same shape. **Do not rename the contract fields** — the backend adapter depends on them.
 
+The adapter is now included. To use the local backend, copy `.env.example` to `.env.local`, set
+`EXPO_PUBLIC_USE_BACKEND=true`, start the FastAPI service on port 8000, and restart Expo. The
+simulated recording/upload flow calls `/api/v1/demo`; a future real file object supplied as
+`input.file` automatically uses `/api/v1/extract/audio` or `/api/v1/extract/image`.
+
+For Expo Go on a physical phone, replace `127.0.0.1` with the computer's LAN IP. Set
+`EXPO_PUBLIC_ALLOW_MOCK_FALLBACK=true` only when a presentation must continue if the API is down.
+
 ## Notes
 
 - Recording and image upload are **simulated**; the prototype does not access the microphone,

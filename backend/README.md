@@ -27,6 +27,7 @@ Open `http://localhost:8000/docs` for the interactive API page.
 - `GET /health` — confirms API availability and whether a Groq key is configured.
 - `POST /api/v1/extract/audio` — accepts supported audio and returns transcript plus structured prescription data.
 - `POST /api/v1/extract/image` — accepts a prescription image and returns structured prescription data.
+- `POST /api/v1/demo` — processes an included invented sample for the simulated frontend flow.
 
 Both extraction routes use multipart form data with a field named `file`. Every result has `requires_review: true`; a doctor must verify the generated fields.
 

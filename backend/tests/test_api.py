@@ -63,3 +63,28 @@ def test_audio_returns_normalized_response(monkeypatch):
     assert body["transcript"] == "Demo transcript"
     assert body["prescription"]["medicines"][0]["name"] == "Paracetamol"
     assert body["requires_review"] is True
+
+
+def test_demo_selects_hinglish_sample(monkeypatch):
+    captured = {}
+
+    async def fake_extract(path, display_name, source_type):
+        captured.update(path=path.name, display_name=display_name, source_type=source_type)
+        return api.ExtractionResponse(
+            source_file=display_name,
+            source_type=source_type,
+            transcript="Demo transcript",
+            prescription=SAMPLE_PRESCRIPTION,
+        )
+
+    monkeypatch.setattr(api, "_extract_path", fake_extract)
+    response = client.post(
+        "/api/v1/demo",
+        json={"source_type": "audio", "language": "hinglish"},
+    )
+    assert response.status_code == 200
+    assert captured == {
+        "path": "audio_02.mp4",
+        "display_name": "audio_02.mp4",
+        "source_type": "audio",
+    }

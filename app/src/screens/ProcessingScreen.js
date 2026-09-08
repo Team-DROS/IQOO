@@ -16,8 +16,6 @@ export default function ProcessingScreen({ navigation, route }) {
   const [stage, setStage] = useState(0);
   const [error, setError] = useState(null);
   const [attempt, setAttempt] = useState(0);
-  const resultRef = useRef(null);
-  const errorRef = useRef(null);
   const spin = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -30,30 +28,26 @@ export default function ProcessingScreen({ navigation, route }) {
 
   useEffect(() => {
     let cancelled = false;
-    resultRef.current = null;
-    errorRef.current = null;
     setError(null);
     setStage(0);
 
-    processConsultation(input)
-      .then((r) => { if (!cancelled) resultRef.current = r; })
-      .catch((e) => { if (!cancelled) { errorRef.current = e.message; } });
-
     const t1 = setTimeout(() => !cancelled && setStage(1), 1050);
     const t2 = setTimeout(() => !cancelled && setStage(2), 2150);
-    const t3 = setTimeout(() => {
-      if (cancelled) return;
-      setStage(3);
-      setTimeout(() => {
+
+    processConsultation(input)
+      .then((result) => {
         if (cancelled) return;
-        if (errorRef.current) setError(errorRef.current);
-        else navigation.replace('Review', { result: resultRef.current, input });
-      }, 500);
-    }, 3200);
+        setStage(3);
+        setTimeout(() => !cancelled && navigation.replace('Review', { result, input }), 450);
+      })
+      .catch((e) => {
+        if (cancelled) return;
+        setError(e.message);
+      });
 
     return () => {
       cancelled = true;
-      [t1, t2, t3].forEach(clearTimeout);
+      [t1, t2].forEach(clearTimeout);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [attempt]);
